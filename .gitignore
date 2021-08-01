@@ -136,8 +136,13 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# venv folders (win & linux)
 pyvenv.cfg
 Scripts/*
 Include/*
 Lib/*
 share/*
+bin/*
+lib64/*
+lib64
