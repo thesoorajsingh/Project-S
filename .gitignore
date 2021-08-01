@@ -140,4 +140,4 @@ pyvenv.cfg
 Scripts/*
 Include/*
 Lib/*
-
+share/*
