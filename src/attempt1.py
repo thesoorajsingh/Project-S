@@ -36,6 +36,20 @@ x_train, y_train = read_images_to_dataset(train_folder, "train")
 x_val, y_val = read_images_to_dataset(val_folder, "valid")
 x_test, y_test = read_images_to_dataset(test_folder, "test")
 
+print(f"Train data shape -> {x_train.shape}")
+print(f"Train data shape -> {x_val.shape}")
+print(f"Train data shape -> {x_test.shape}")
+
+#%%
+# functions to see training data
+take = 3
+for t in range(take):
+    a = np.random.randint(0, x_train.shape[0], 1).item()
+    print(f"Letter of the alphabet -> {ascii_lowercase[y_train[a]].upper()}")
+    plt.imshow(x_train[a])
+    plt.show()
+    print()
+
 # %%
 def create_model():
     def double_conv_layer(y):
@@ -43,21 +57,24 @@ def create_model():
         x = Add()([x, y])
         x = Conv2D(64, 3, padding="same", activation="gelu")(x)
         x = MaxPool2D()(x)
+        x = BatchNormalization()(x)
         return x
 
     inp = Input(shape=(372, 372, 3))
 
-    x = inp / 255.0  # inputs are not normalized
-    x = LayerNormalization()(x)
-    x = Conv2D(64, 1)(x)
+    x = BatchNormalization()(inp)
+    x = Conv2D(64, 3, activation="gelu", padding="same")(x)
+    x = Conv2D(64, 3, activation="gelu", padding="same")(x)
+    x = MaxPool2D()(x)
     x = double_conv_layer(x)
     x = double_conv_layer(x)
     x = double_conv_layer(x)
     x = double_conv_layer(x)
     x = double_conv_layer(x)
     x = double_conv_layer(x)
-    x = double_conv_layer(x)
+
     x = Flatten()(x)
+    x = Dropout(0.5)(x)
     x = Dense(len(ascii_lowercase), activation="softmax")(x)
 
     return Model(inputs=inp, outputs=x)
@@ -67,7 +84,7 @@ model = create_model()
 print(model.summary())
 
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(1e-3),
+    optimizer=tf.keras.optimizers.Adam(),
     loss=tf.keras.losses.SparseCategoricalCrossentropy(),
     metrics=["accuracy"],
 )
