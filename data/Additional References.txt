@@ -1,0 +1,6 @@
+More datasets:
+- https://github.com/byeongkeun-kang/FingerspellingRecognition
+- https://www.kaggle.com/grassknoted/asl-alphabet/version/1
+
+More references/links:
+- https://edu.authorcafe.com/academies/6813/sign-language-recognition
