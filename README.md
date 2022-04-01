@@ -1,3 +1,3 @@
 # Project-S
 
-A long term project that aims to help the disabled with speech synthesis.
+A long term project that aims to assist the differently abled with speech synthesis.
